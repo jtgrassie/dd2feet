@@ -31,7 +31,8 @@ public class LocationFeet
 
     public LocationFeet(byte[] packed)
     {
-        unpack(packed);
+        this.packed = packed;
+        unpack();
     }
 
     public void setLatitude(int latitude)
@@ -59,6 +60,7 @@ public class LocationFeet
     public void setPacked(byte[] packed)
     {
         this.packed = packed;
+        unpack();
     }
 
     public byte[] getPacked()
@@ -66,7 +68,7 @@ public class LocationFeet
         return this.packed;
     }
 
-    private void unpack(byte[] packed)
+    private void unpack()
     {
         latitude   = (0xFF & packed[0]) << 16;
         latitude  += (0xFF & packed[1]) << 8;
