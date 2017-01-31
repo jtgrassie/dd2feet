@@ -1,0 +1,32 @@
+apply plugin: 'java'
+
+group = "eu-grassie-${project.name}"
+version = '1.0'
+
+compileJava {
+    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'log4j:log4j:1.2.17'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.5'
+}
+
+task fatJar(type: Jar) {
+    baseName = project.name + '-fat'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+    manifest {
+        attributes 'Main-Class': 'eu.grassie.dd2ft.TestApp',
+                'Implementation-Title': "${project.name}",
+                'Implementation-Version': version
+    }
+}
+
+build.dependsOn fatJar

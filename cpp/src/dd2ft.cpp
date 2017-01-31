@@ -52,12 +52,12 @@ void print_packed(location_ft *ft)
     uint32_t lon;
 
     lat = ft->packed[0] << 16;
-    lat |= ft->packed[1] << 8;
-    lat |= ft->packed[2];
+    lat += ft->packed[1] << 8;
+    lat += ft->packed[2];
 
     lon = ft->packed[3] << 16;
-    lon |= ft->packed[4] << 8;
-    lon |= ft->packed[5];
+    lon += ft->packed[4] << 8;
+    lon += ft->packed[5];
 
     printf("Un-packed feet: %9d, %d\n", lat, lon);
 }
