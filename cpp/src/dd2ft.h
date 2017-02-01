@@ -33,7 +33,10 @@ typedef struct location_ft
 
 void convert_to_feet(location_dd *dd, location_ft *ft);
 void convert_to_decimal(location_ft *ft, location_dd *dd);
-void print_packed(location_ft *ft);
+void unpack(location_ft *ft);
+void pack(location_ft *ft);
+
+void print_unpacked(location_ft *ft);
 void print(location_ft *ft);
 void print(location_dd *dd);
 

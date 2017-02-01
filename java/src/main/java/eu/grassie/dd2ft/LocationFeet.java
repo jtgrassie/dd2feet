@@ -71,11 +71,11 @@ public class LocationFeet
     private void unpack()
     {
         latitude   = (0xFF & packed[0]) << 16;
-        latitude  += (0xFF & packed[1]) << 8;
-        latitude  += (0xFF & packed[2]);
+        latitude  |= (0xFF & packed[1]) << 8;
+        latitude  |= (0xFF & packed[2]);
         longitude  = (0xFF & packed[3]) << 16;
-        longitude += (0xFF & packed[4]) << 8;
-        longitude += (0xFF & packed[5]);
+        longitude |= (0xFF & packed[4]) << 8;
+        longitude |= (0xFF & packed[5]);
     }
 
     private void pack()

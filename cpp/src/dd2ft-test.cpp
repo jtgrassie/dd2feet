@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 
     convert_to_feet(&in_dd, &out_ft);
     print(&out_ft);
-    print_packed(&out_ft);
+    print_unpacked(&out_ft);
 
     convert_to_decimal(&out_ft, &in_dd);
     print(&in_dd);

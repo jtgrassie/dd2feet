@@ -21,13 +21,7 @@ void convert_to_feet(location_dd *dd, location_ft *ft)
     ft->longitude = round( ft->longitude / RESOLUTION );
     ft->latitude = round( ft->latitude / RESOLUTION );
 
-    // pack into 6 bytes
-    ft->packed[0] = (ft->latitude  & 0x00FF0000) >> 16;
-    ft->packed[1] = (ft->latitude  & 0x0000FF00) >> 8;
-    ft->packed[2] = ft->latitude   & 0x000000FF;
-    ft->packed[3] = (ft->longitude & 0x00FF0000) >> 16;
-    ft->packed[4] = (ft->longitude & 0x0000FF00) >> 8;
-    ft->packed[5] = ft->longitude  & 0x000000FF;
+    pack(ft);
 }
 
 void convert_to_decimal(location_ft *ft, location_dd *dd)
@@ -46,19 +40,36 @@ void convert_to_decimal(location_ft *ft, location_dd *dd)
     }
 }
 
-void print_packed(location_ft *ft)
+void unpack(location_ft *ft)
+{
+    ft->latitude = ft->packed[0] << 16;
+    ft->latitude |= ft->packed[1] << 8;
+    ft->latitude |= ft->packed[2];
+    ft->longitude = ft->packed[3] << 16;
+    ft->longitude |= ft->packed[4] << 8;
+    ft->longitude |= ft->packed[5];
+}
+
+void pack(location_ft *ft)
+{
+    ft->packed[0] = (ft->latitude  & 0x00FF0000) >> 16;
+    ft->packed[1] = (ft->latitude  & 0x0000FF00) >> 8;
+    ft->packed[2] = ft->latitude   & 0x000000FF;
+    ft->packed[3] = (ft->longitude & 0x00FF0000) >> 16;
+    ft->packed[4] = (ft->longitude & 0x0000FF00) >> 8;
+    ft->packed[5] = ft->longitude  & 0x000000FF;
+}
+
+void print_unpacked(location_ft *ft)
 {
     uint32_t lat;
     uint32_t lon;
-
-    lat = ft->packed[0] << 16;
-    lat += ft->packed[1] << 8;
-    lat += ft->packed[2];
-
-    lon = ft->packed[3] << 16;
-    lon += ft->packed[4] << 8;
-    lon += ft->packed[5];
-
+    lat  = ft->packed[0] << 16;
+    lat |= ft->packed[1] << 8;
+    lat |= ft->packed[2];
+    lon  = ft->packed[3] << 16;
+    lon |= ft->packed[4] << 8;
+    lon |= ft->packed[5];
     printf("Un-packed feet: %9d, %d\n", lat, lon);
 }
 
